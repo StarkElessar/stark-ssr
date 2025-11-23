@@ -1,5 +1,5 @@
 {
-	"name": "dynamic-routing-2",
+	"name": "stark-ssr",
 	"version": "1.0.0",
 	"scripts": {
 		"start": "node ./.output/server/server.mjs",

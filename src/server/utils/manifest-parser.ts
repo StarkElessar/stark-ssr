@@ -24,7 +24,7 @@ export type Manifest = Record<string, ManifestItem>;
  */
 export function parseManifestToAssets(
 	manifest: Manifest,
-	currentPageKey: string
+	currentPageKey: string | undefined
 ): ProductionAssets {
 	const mainTsxKey = 'src/client/main.tsx';
 	const mainScssKey = 'src/client/main.scss';
@@ -32,7 +32,7 @@ export function parseManifestToAssets(
 	// Extract entries from manifest
 	const mainTsx = manifest[mainTsxKey];
 	const mainScss = manifest[mainScssKey];
-	const currentPage = manifest[currentPageKey];
+	const currentPage = currentPageKey ? manifest[currentPageKey] : undefined;
 
 	return {
 		// Global styles from main.scss

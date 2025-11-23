@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router';
 
 import type { Page } from '@app-types';
+import NotFoundPage from '../pages/not-found/page';
 import { DynamicPage } from './dynamic-page';
 import { Header } from './ui/header';
 
@@ -23,6 +24,7 @@ export const App = ({ routerData }: { routerData: [string, Page][] }) => {
 						/>
 					);
 				})}
+				<Route path="*" element={<NotFoundPage />} />
 			</Routes>
 		</>
 	);

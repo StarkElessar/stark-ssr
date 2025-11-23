@@ -39,7 +39,7 @@ export class SiteController {
 		const page = parsedData.pages[url];
 
 		if (!page) {
-			return res.status(404).send('Not Found');
+			res.status(404);
 		}
 
 		// Prepare assets based on environment
@@ -56,7 +56,8 @@ export class SiteController {
 		else {
 			// Production mode - parse manifest and create production assets
 			const manifest = await this.manifestPromise;
-			const currentPageKey = `src/client/pages/${page.component}/page.tsx`;
+			// If page exists, try to load its specific assets, otherwise just load app assets
+			const currentPageKey = page ? `src/client/pages/${page.component}/page.tsx` : undefined;
 			const productionAssets = parseManifestToAssets(manifest, currentPageKey);
 			assets = createProductionAssets(productionAssets);
 		}
