@@ -1,2 +1,0 @@
-import{r as c,j as t}from"./app-DUdqlwAx.js";const e="_container_wisx9_1",o={container:e},r="_btn_13zju_1",a={btn:r},i=()=>{const[n,s]=c.useState(0);return t.jsxs("button",{className:a.btn,onClick:()=>s(n+1),children:["click ",n]})};function l(){return t.jsxs("div",{className:o.container,children:[t.jsx("h1",{children:"Home Page"}),t.jsx(i,{})]})}export{l as default};
-//# sourceMappingURL=page-BYYzKep-.js.map
