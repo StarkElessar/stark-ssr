@@ -1,7 +1,15 @@
+import { join } from 'node:path';
 import { defineConfig } from 'vite';
 
 export default defineConfig(() => {
 	return {
+		resolve: {
+			alias: {
+				'@client': join(process.cwd(), 'src/client'),
+				'@server': join(process.cwd(), 'src/server'),
+				'@app-types': join(process.cwd(), 'src/types'),
+			},
+		},
 		build: {
 			outDir: '.output/server',
 			copyPublicDir: false,

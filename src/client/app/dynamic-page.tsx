@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { getComponent } from '../../registry';
+import { getComponent } from '@client/registry';
 
 type DynamicPageProps = {
 	componentName: string;

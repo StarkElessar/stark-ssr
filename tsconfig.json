@@ -20,7 +20,22 @@
 		"allowSyntheticDefaultImports": true,
 		"types": [
 			"node"
-		]
+		],
+		"baseUrl": ".",
+		"paths": {
+			"@client/*": [
+				"src/client/*"
+			],
+			"@server/*": [
+				"src/server/*"
+			],
+			"@app-types": [
+				"src/types"
+			],
+			"@app-types/*": [
+				"src/types/*"
+			]
+		}
 	},
 	"include": [
 		"src/**/*"

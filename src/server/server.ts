@@ -1,12 +1,13 @@
 import { join } from 'node:path';
 import { readFile } from 'node:fs/promises';
 import express from 'express';
+import compression from 'compression';
 import type { ViteDevServer } from 'vite';
 import { createElement } from 'react';
 import { renderToString } from 'react-dom/server';
 
-import type { Data } from '../types';
-import { RootLayout } from '../client/app';
+import type { Data } from '@app-types';
+import { RootLayout } from '@client/app';
 import {
 	parseManifestToAssets,
 	createDevelopmentAssets,
@@ -37,6 +38,7 @@ const createServer = async () => {
 
 	let viteServer: ViteDevServer | null = null;
 
+	app.use(compression());
 	app.use(express.json({ limit: '10mb' }));
 	app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 	app.use(express.static(join(process.cwd(), 'public')));
@@ -53,7 +55,8 @@ const createServer = async () => {
 
 		app.use(viteServer.middlewares);
 		console.log('Vite middleware initialized');
-	} else {
+	}
+	else {
 		app.use(express.static(join(process.cwd(), '.output/client')));
 	}
 

@@ -1,7 +1,7 @@
 import { StaticRouter } from 'react-router';
 
-import type { Page } from '../../types';
-import type { LayoutAssets } from '../../types/assets';
+import type { Page } from '@app-types';
+import type { LayoutAssets } from '@app-types/assets';
 import { App } from './app';
 import { AssetsHead, AssetsScripts } from './components/assets-head';
 

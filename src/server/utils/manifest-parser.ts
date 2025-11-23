@@ -1,4 +1,4 @@
-import type { LayoutAssets, ProductionAssets } from '../../types/assets';
+import type { LayoutAssets, ProductionAssets } from '@app-types/assets';
 
 /**
  * Vite manifest item structure

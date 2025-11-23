@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router';
 
-import type { Page } from '../../types';
+import type { Page } from '@app-types';
 import { DynamicPage } from './dynamic-page';
 import { Header } from './ui/header';
 

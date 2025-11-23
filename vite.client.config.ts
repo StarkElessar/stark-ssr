@@ -4,6 +4,13 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig(({ mode }) => {
 	return {
+		resolve: {
+			alias: {
+				'@client': join(process.cwd(), 'src/client'),
+				'@server': join(process.cwd(), 'src/server'),
+				'@app-types': join(process.cwd(), 'src/types'),
+			},
+		},
 		plugins: [react()],
 		build: {
 			outDir: '.output/client',

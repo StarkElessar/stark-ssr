@@ -1,6 +1,6 @@
 import css from './header.module.scss';
 import { Link } from 'react-router';
-import { Container } from '../../../shared/ui';
+import { Container } from '@client/shared/ui';
 
 export const Header = () => {
 	return (

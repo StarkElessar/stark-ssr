@@ -5,9 +5,9 @@ import { lazy } from 'react';
  * Maps component names from CMS to actual React components
  */
 export const COMPONENTS_REGISTRY = {
-	home: lazy(() => import('./client/pages/home/page')),
-	about: lazy(() => import('./client/pages/about/page')),
-	contact: lazy(() => import('./client/pages/contact/page')),
+	home: lazy(() => import('./pages/home/page')),
+	about: lazy(() => import('./pages/about/page')),
+	contact: lazy(() => import('./pages/contact/page')),
 };
 
 /**

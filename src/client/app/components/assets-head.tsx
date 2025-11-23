@@ -2,7 +2,7 @@ import type {
 	LayoutAssets,
 	StyleAsset,
 	ScriptAsset,
-} from '../../../types/assets';
+} from '@app-types/assets';
 
 /**
  * Renders stylesheet link tags
