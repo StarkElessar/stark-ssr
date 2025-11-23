@@ -1,0 +1,22 @@
+{
+	"pages": {
+		"/": {
+			"component": "home",
+			"data": {
+				"title": "Home"
+			}
+		},
+		"/about": {
+			"component": "about",
+			"data": {
+				"title": "About"
+			}
+		},
+		"/contact": {
+			"component": "contact",
+			"data": {
+				"title": "Contact"
+			}
+		}
+	}
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"page-D9QuV6VG.js","sources":["../../src/client/pages/about/page.tsx"],"sourcesContent":["export default function About() {\n\treturn <h1>About Page</h1>;\n}\n"],"names":["About","jsx"],"mappings":"sCAAA,SAAwBA,GAAQ,CAC/B,OAAOC,EAAAA,IAAC,MAAG,SAAA,YAAA,CAAU,CACtB"}

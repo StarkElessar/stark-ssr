@@ -1,0 +1,1 @@
+{"version":3,"file":"page-CaZDwrPz.js","sources":["../../src/client/pages/contact/page.tsx"],"sourcesContent":["export default function Contact() {\n\treturn <h1>Contact Page</h1>;\n}\n"],"names":["Contact","jsx"],"mappings":"sCAAA,SAAwBA,GAAU,CACjC,OAAOC,EAAAA,IAAC,MAAG,SAAA,cAAA,CAAY,CACxB"}
