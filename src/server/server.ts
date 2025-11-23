@@ -7,20 +7,12 @@ import { renderToString } from 'react-dom/server';
 
 import type { Data } from '../types';
 import { RootLayout } from '../client/app';
-
-type ManifestItem = {
-	file: string;
-	src: string;
-	name: string;
-	isEntry?: boolean;
-	isDynamicEntry?: boolean;
-	names?: string[];
-	dynamicImports?: string[];
-	css?: string[];
-	imports?: string[];
-};
-
-type Manifest = Record<string, ManifestItem>;
+import {
+	parseManifestToAssets,
+	createDevelopmentAssets,
+	createProductionAssets,
+	type Manifest,
+} from './utils/manifest-parser';
 
 if (import.meta.env.DEV && globalThis.__devServer__) {
 	console.log('Closing previous server instance...');
@@ -65,9 +57,10 @@ const createServer = async () => {
 		app.use(express.static(join(process.cwd(), '.output/client')));
 	}
 
-	app.get('*all', async (req, res) => {
+	app.all(/.*/, async (req, res) => {
 		const url = req.url;
 
+		// Load CMS data
 		const data = await readFile(join(process.cwd(), 'public', 'data.json'), 'utf-8');
 		const parsedData: Data = JSON.parse(data);
 		const page = parsedData.pages[url];
@@ -76,21 +69,30 @@ const createServer = async () => {
 			return res.status(404).send('Not Found');
 		}
 
-		const manifest = await manifestPromise;
-		const currentPageKey = `src/client/pages/${page.component}/page.tsx`;
+		// Prepare assets based on environment
+		let assets;
 
+		if (import.meta.env.DEV) {
+			// Development mode - inline styles with HMR
+			const css = await readFile(
+				join(process.cwd(), 'src/client/main.scss'),
+				'utf-8'
+			);
+			assets = createDevelopmentAssets(css);
+		}
+		else {
+			// Production mode - parse manifest and create production assets
+			const manifest = await manifestPromise;
+			const currentPageKey = `src/client/pages/${page.component}/page.tsx`;
+			const productionAssets = parseManifestToAssets(manifest, currentPageKey);
+			assets = createProductionAssets(productionAssets);
+		}
+
+		// Render HTML
 		const html = renderToString(
 			createElement(RootLayout, {
 				routerData: Object.entries(parsedData.pages),
-				layoutAssets: {
-					script: import.meta.env.DEV
-						? './src/client/main.tsx'
-						: `/${manifest['src/client/main.tsx'].file}`,
-					style: import.meta.env.PROD ? `/${manifest['src/client/main.scss'].file}` : '',
-				},
-				currentPageAssets: {
-					style: import.meta.env.PROD ? (manifest[currentPageKey].css ?? []) : [],
-				},
+				assets,
 				url,
 			})
 		);
@@ -117,9 +119,7 @@ createServer().then((props) => {
 });
 
 declare global {
-	var __devServer__:
-		| {
-				close: () => Promise<void>;
-		  }
-		| undefined;
+	var __devServer__: undefined | {
+		close: () => Promise<void>;
+	};
 }

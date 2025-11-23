@@ -1,11 +1,12 @@
 import css from './home.module.scss';
+import { Container } from '../../shared/ui';
 import { Clicker } from './ui/clicker';
 
 export default function Home() {
 	return (
-		<div className={css.container}>
-			<h1>Home Page</h1>
+		<Container>
+			<h1 className={css.title}>Home Page</h1>
 			<Clicker />
-		</div>
+		</Container>
 	);
 }

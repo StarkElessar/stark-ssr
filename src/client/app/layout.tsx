@@ -1,60 +1,42 @@
-import css from '../main.scss?raw';
 import { StaticRouter } from 'react-router';
 
 import type { Page } from '../../types';
+import type { LayoutAssets } from '../../types/assets';
 import { App } from './app';
+import { AssetsHead, AssetsScripts } from './components/assets-head';
 
 type RootLayoutProps = {
-	currentPageAssets: {
-		style: string[];
-	};
-	layoutAssets: {
-		script: string;
-		style: string;
-	};
+	/** Assets configuration for styles and scripts */
+	assets: LayoutAssets;
+	/** Router data for dynamic routes */
 	routerData: [string, Page][];
+	/** Current URL for SSR */
 	url: string;
 };
 
+/**
+ * Root HTML layout component for SSR
+ *
+ * Responsibilities:
+ * - Renders complete HTML structure
+ * - Injects assets (styles and scripts) in optimal order
+ * - Handles both development and production modes
+ * - Sets up router with initial URL
+ */
 export default function RootLayout({
 	routerData,
 	url,
-	layoutAssets,
-	currentPageAssets,
+	assets,
 }: RootLayoutProps) {
 	return (
-		<html>
+		<html lang="en">
 			<head>
 				<meta charSet="UTF-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 				<title>Dynamic Routing</title>
 
-				{import.meta.env.PROD && (
-					<>
-						<link rel="stylesheet" href={layoutAssets.style} />
-						{currentPageAssets.style.map((path, index) => (
-							<link rel="stylesheet" href={'/' + path} key={index} />
-						))}
-					</>
-				)}
-
-				{import.meta.env.DEV && (
-					<>
-						<style>{css}</style>
-						<script
-							type="module"
-							dangerouslySetInnerHTML={{
-								__html: `
-								import RefreshRuntime from '/@react-refresh';
-								RefreshRuntime.injectIntoGlobalHook(window);
-								window.$RefreshReg$ = () => {};
-								window.$RefreshSig$ = () => (type) => type;
-								window.__vite_plugin_react_preamble_installed__ = true;
-							`,
-							}}
-						/>
-					</>
-				)}
+				{/* All styles are rendered here in optimal order */}
+				<AssetsHead assets={assets} />
 			</head>
 			<body>
 				<div id="__root" className="wrapper">
@@ -62,7 +44,9 @@ export default function RootLayout({
 						<App routerData={routerData} />
 					</StaticRouter>
 				</div>
-				<script type="module" src={layoutAssets.script} />
+
+				{/* Scripts are loaded at the end for better performance */}
+				<AssetsScripts assets={assets} />
 			</body>
 		</html>
 	);

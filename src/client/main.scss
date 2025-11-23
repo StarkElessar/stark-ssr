@@ -10,6 +10,15 @@ body {
 	height: 100%;
 }
 
+body {
+	background: #333;
+	color: #fff;
+}
+
+a {
+	color: inherit;
+}
+
 .wrapper {
 	display: flex;
 	flex-direction: column;
