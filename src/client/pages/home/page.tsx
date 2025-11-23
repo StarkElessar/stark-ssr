@@ -1,5 +1,5 @@
-import css from './home.module.scss';
 import { Container } from '@client/shared/ui';
+import css from './home.module.scss';
 import { Clicker } from './ui/clicker';
 
 export default function Home() {

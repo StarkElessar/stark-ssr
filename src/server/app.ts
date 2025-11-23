@@ -1,6 +1,6 @@
 import { join } from 'node:path';
-import express, { Express } from 'express';
 import compression from 'compression';
+import express, { type Express } from 'express';
 import type { ViteDevServer } from 'vite';
 
 import { SiteController } from './controllers/site.controller';
@@ -39,8 +39,7 @@ export class App {
 
 			this.app.use(this.viteServer.middlewares);
 			console.log('Vite middleware initialized');
-		}
-		else {
+		} else {
 			this.app.use(express.static(join(process.cwd(), '.output/client')));
 		}
 	}

@@ -2,11 +2,7 @@
 	"compilerOptions": {
 		"target": "ES2022",
 		"module": "ESNext",
-		"lib": [
-			"ES2022",
-			"DOM",
-			"DOM.Iterable"
-		],
+		"lib": ["ES2022", "DOM", "DOM.Iterable"],
 		"jsx": "react-jsx",
 		"jsxImportSource": "react",
 		"moduleResolution": "bundler",
@@ -18,30 +14,15 @@
 		"strict": true,
 		"skipLibCheck": true,
 		"allowSyntheticDefaultImports": true,
-		"types": [
-			"node"
-		],
+		"types": ["node"],
 		"baseUrl": ".",
 		"paths": {
-			"@client/*": [
-				"src/client/*"
-			],
-			"@server/*": [
-				"src/server/*"
-			],
-			"@app-types": [
-				"src/types"
-			],
-			"@app-types/*": [
-				"src/types/*"
-			]
+			"@client/*": ["src/client/*"],
+			"@server/*": ["src/server/*"],
+			"@app-types": ["src/types"],
+			"@app-types/*": ["src/types/*"]
 		}
 	},
-	"include": [
-		"src/**/*"
-	],
-	"exclude": [
-		"node_modules",
-		".output"
-	]
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", ".output"]
 }

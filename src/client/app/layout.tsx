@@ -1,7 +1,6 @@
-import { StaticRouter } from 'react-router';
-
 import type { Page } from '@app-types';
 import type { LayoutAssets } from '@app-types/assets';
+import { StaticRouter } from 'react-router';
 import { App } from './app';
 import { AssetsHead, AssetsScripts } from './components/assets-head';
 
@@ -23,11 +22,7 @@ type RootLayoutProps = {
  * - Handles both development and production modes
  * - Sets up router with initial URL
  */
-export default function RootLayout({
-	routerData,
-	url,
-	assets,
-}: RootLayoutProps) {
+export default function RootLayout({ routerData, url, assets }: RootLayoutProps) {
 	return (
 		<html lang="en">
 			<head>

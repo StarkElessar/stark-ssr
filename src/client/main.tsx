@@ -1,7 +1,6 @@
-import { BrowserRouter } from 'react-router';
+import type { Data } from '@app-types';
 import { hydrateRoot } from 'react-dom/client';
-
-import { Data } from '@app-types';
+import { BrowserRouter } from 'react-router';
 import { App } from './app';
 
 const bootstrap = async () => {

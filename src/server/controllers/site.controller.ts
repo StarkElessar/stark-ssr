@@ -1,16 +1,18 @@
-import { join } from 'node:path';
 import { readFile } from 'node:fs/promises';
-import { Request, Response } from 'express';
+import { join } from 'node:path';
+import type { Request, Response } from 'express';
 import { createElement } from 'react';
 import { renderToPipeableStream } from 'react-dom/server';
 
 import type { Data } from '@app-types';
+import type { LayoutAssets } from '@app-types/assets';
 import { RootLayout } from '@client/app';
+
 import {
-	parseManifestToAssets,
 	createDevelopmentAssets,
 	createProductionAssets,
 	type Manifest,
+	parseManifestToAssets,
 } from '../utils/manifest-parser';
 
 export class SiteController {
@@ -43,17 +45,13 @@ export class SiteController {
 		}
 
 		// Prepare assets based on environment
-		let assets;
+		let assets: LayoutAssets;
 
 		if (import.meta.env.DEV) {
 			// Development mode - inline styles with HMR
-			const css = await readFile(
-				join(process.cwd(), 'src/client/main.scss'),
-				'utf-8'
-			);
+			const css = await readFile(join(process.cwd(), 'src/client/main.scss'), 'utf-8');
 			assets = createDevelopmentAssets(css);
-		}
-		else {
+		} else {
 			// Production mode - parse manifest and create production assets
 			const manifest = await this.manifestPromise;
 			// If page exists, try to load its specific assets, otherwise just load app assets

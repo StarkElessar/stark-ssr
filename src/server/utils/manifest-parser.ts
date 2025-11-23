@@ -38,11 +38,11 @@ export function parseManifestToAssets(
 		// Global styles from main.scss
 		globalStyles: mainScss
 			? [
-				{
-					href: `/${mainScss.file}`,
-					'data-purpose': 'global',
-				},
-			]
+					{
+						href: `/${mainScss.file}`,
+						'data-purpose': 'global',
+					},
+				]
 			: [],
 
 		// App-level styles from main.tsx CSS imports

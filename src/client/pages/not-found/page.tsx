@@ -1,5 +1,5 @@
-import { Link } from 'react-router';
 import { Container } from '@client/shared/ui';
+import { Link } from 'react-router';
 
 export default function NotFoundPage() {
 	return (

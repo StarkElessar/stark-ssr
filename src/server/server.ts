@@ -10,7 +10,9 @@ const app = new App();
 void app.bootstrap();
 
 declare global {
-	var __devServer__: undefined | {
-		close: () => Promise<void>;
-	};
+	var __devServer__:
+		| undefined
+		| {
+				close: () => Promise<void>;
+		  };
 }

@@ -1,8 +1,4 @@
-import type {
-	LayoutAssets,
-	StyleAsset,
-	ScriptAsset,
-} from '@app-types/assets';
+import type { LayoutAssets, StyleAsset } from '@app-types/assets';
 
 /**
  * Renders stylesheet link tags
@@ -28,6 +24,7 @@ function StylesheetLinks({ styles }: { styles: StyleAsset[] }) {
  * Renders inline styles for development mode
  */
 function InlineStyles({ css }: { css: string }) {
+	// biome-ignore lint/security/noDangerouslySetInnerHtml: Needed for SSR inline styles
 	return <style dangerouslySetInnerHTML={{ __html: css }} />;
 }
 
@@ -38,6 +35,7 @@ function ReactRefreshRuntime() {
 	return (
 		<script
 			type="module"
+			// biome-ignore lint/security/noDangerouslySetInnerHtml: Needed for React Refresh runtime
 			dangerouslySetInnerHTML={{
 				__html: `
 					import RefreshRuntime from '/@react-refresh';
@@ -92,9 +90,7 @@ function DevelopmentStyles({ assets }: { assets: LayoutAssets }) {
  */
 function MainScript({ assets }: { assets: LayoutAssets }) {
 	const script =
-		assets.mode === 'production'
-			? assets.production?.mainScript
-			: assets.development?.mainScript;
+		assets.mode === 'production' ? assets.production?.mainScript : assets.development?.mainScript;
 
 	if (!script) return null;
 

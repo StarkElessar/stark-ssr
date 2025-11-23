@@ -6,7 +6,5 @@
 		"allowImportingTsExtensions": true,
 		"outDir": ".output/server"
 	},
-	"include": [
-		"src/server/server.ts"
-	]
+	"include": ["src/server/server.ts"]
 }

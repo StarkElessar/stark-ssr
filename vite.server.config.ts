@@ -22,8 +22,8 @@ export default defineConfig(() => {
 					entryFileNames: 'server.mjs',
 					chunkFileNames: 'chunk-[hash].mjs',
 					assetFileNames: 'assets/[name].[hash][extname]',
-				}
-			}
-		}
-	}
+				},
+			},
+		},
+	};
 });
