@@ -1,19 +1,4 @@
-import { join } from 'node:path';
-import { readFile } from 'node:fs/promises';
-import express from 'express';
-import compression from 'compression';
-import type { ViteDevServer } from 'vite';
-import { createElement } from 'react';
-import { renderToString } from 'react-dom/server';
-
-import type { Data } from '@app-types';
-import { RootLayout } from '@client/app';
-import {
-	parseManifestToAssets,
-	createDevelopmentAssets,
-	createProductionAssets,
-	type Manifest,
-} from './utils/manifest-parser';
+import { App } from './app';
 
 if (import.meta.env.DEV && globalThis.__devServer__) {
 	console.log('Closing previous server instance...');
@@ -21,105 +6,8 @@ if (import.meta.env.DEV && globalThis.__devServer__) {
 	globalThis.__devServer__ = undefined;
 }
 
-const createServer = async () => {
-	const app = express();
-
-	const manifestPromise = readFile(
-		join(process.cwd(), '.output/client/.vite/manifest.json'),
-		'utf-8'
-	)
-		.then<Manifest>((manifestContent) => {
-			return JSON.parse(manifestContent);
-		})
-		.catch<Manifest>((error) => {
-			console.warn('Manifest not found, using default paths ', error);
-			return {};
-		});
-
-	let viteServer: ViteDevServer | null = null;
-
-	app.use(compression());
-	app.use(express.json({ limit: '10mb' }));
-	app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-	app.use(express.static(join(process.cwd(), 'public')));
-
-	if (import.meta.env.DEV) {
-		const vite = await import('vite');
-
-		viteServer = await vite.createServer({
-			configFile: join(process.cwd(), 'vite.client.config.ts'),
-			server: { middlewareMode: true },
-			appType: 'custom',
-			base: '/',
-		});
-
-		app.use(viteServer.middlewares);
-		console.log('Vite middleware initialized');
-	}
-	else {
-		app.use(express.static(join(process.cwd(), '.output/client')));
-	}
-
-	app.all(/.*/, async (req, res) => {
-		const url = req.url;
-
-		// Load CMS data
-		const data = await readFile(join(process.cwd(), 'public', 'data.json'), 'utf-8');
-		const parsedData: Data = JSON.parse(data);
-		const page = parsedData.pages[url];
-
-		if (!page) {
-			return res.status(404).send('Not Found');
-		}
-
-		// Prepare assets based on environment
-		let assets;
-
-		if (import.meta.env.DEV) {
-			// Development mode - inline styles with HMR
-			const css = await readFile(
-				join(process.cwd(), 'src/client/main.scss'),
-				'utf-8'
-			);
-			assets = createDevelopmentAssets(css);
-		}
-		else {
-			// Production mode - parse manifest and create production assets
-			const manifest = await manifestPromise;
-			const currentPageKey = `src/client/pages/${page.component}/page.tsx`;
-			const productionAssets = parseManifestToAssets(manifest, currentPageKey);
-			assets = createProductionAssets(productionAssets);
-		}
-
-		// Render HTML
-		const html = renderToString(
-			createElement(RootLayout, {
-				routerData: Object.entries(parsedData.pages),
-				assets,
-				url,
-			})
-		);
-
-		res.send('<!DOCTYPE html>' + html);
-	});
-
-	return { app, viteServer };
-};
-
-createServer().then((props) => {
-	const server = props.app.listen(3000, () => {
-		console.log('Server running on port: http://localhost:3000');
-	});
-
-	if (import.meta.env.DEV) {
-		globalThis.__devServer__ = {
-			close: async () => {
-				server.close();
-				await props.viteServer?.close();
-			},
-		};
-	}
-});
+const app = new App();
+void app.bootstrap();
 
 declare global {
 	var __devServer__: undefined | {
