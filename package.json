@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"scripts": {
 		"start": "node ./.output/server/server.mjs",
-		"dev": "vite-node --watch src/server/server.ts",
+		"dev": "vite-node --watch --config vite.server.config.ts src/server/server.ts",
 		"build": "npm run build:client && npm run build:server",
 		"build:server": "vite build --config vite.server.config.ts",
 		"build:client": "vite build --config vite.client.config.ts",

@@ -40,6 +40,8 @@ export default function RootLayout({ routerData, url, assets }: RootLayoutProps)
 					</StaticRouter>
 				</div>
 
+				<script dangerouslySetInnerHTML={{ __html: `window.__DATA__ = ${JSON.stringify(routerData)}` }} />
+
 				{/* Scripts are loaded at the end for better performance */}
 				<AssetsScripts assets={assets} />
 			</body>

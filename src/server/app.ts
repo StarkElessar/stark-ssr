@@ -45,7 +45,7 @@ export class App {
 	}
 
 	private initializeRoutes() {
-		this.app.all(/.*/, this.siteController.index);
+		this.app.get(/.*/, this.siteController.index);
 	}
 
 	private listen() {
